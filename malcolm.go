@@ -22,7 +22,7 @@ func (c *Chain) Then(m middleware) *Chain {
 // Create returns a handler
 func (c *Chain) Create() func(http.Handler) http.Handler {
 	return func(h http.Handler) http.Handler {
-		return c.Finally(h)
+		return c.finally(h)
 	}
 }
 
@@ -31,8 +31,7 @@ func Then(m middleware) *Chain {
 	return &Chain{[]middleware{m}}
 }
 
-// Finally returns the entire chain
-func (c *Chain) Finally(h http.Handler) http.Handler {
+func (c *Chain) finally(h http.Handler) http.Handler {
 
 	for _, handler := range c.middleware {
 		h = handler(h)
